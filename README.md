@@ -1,5 +1,5 @@
 # memoro
-A node.js server to collect MQTT messages and write them to an Influx database
+A node.js server to collect MQTT messages and write them to an Influx database. A simple example for querying the database is also included.
 
 ## Requirements
 - [Node.js](https://nodejs.org/en/download/)
@@ -19,7 +19,7 @@ Start the server by running
 ```
 node server.js 
 ```
-Adding a number as argument to the call with use that number as the port to which the server listens, e.g., add 80 for a server to respond to port 80.
+Adding a number as argument to the call will use that number as the port to which the server listens, e.g., add 80 for a server to respond to port 80.
 ```
 node server.js 80
 ```
