@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Log</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<script src="log/paho-mqtt.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+Date.prototype.getUnixTime = function() { return this.getTime()/1000|0 };
+var connected = false;	
+var logPreviousEvent = false;
+	// Create a client instance
+  // --> adjust IP address to the one of your MQTT server
+var client = new Paho.MQTT.Client("192.168.0.30", 9001, "browser"+Date.now());
+
+// set callback handlers
+client.onConnectionLost = onConnectionLost;
+// client.onMessageArrived = onMessageArrived;
+
+// connect the client
+client.connect({onSuccess:onConnect, reconnect: true});
+
+
+// called when the client connects
+function onConnect() {
+  // Once a connection has been made, make a subscription and send a message.
+  console.log("onConnect");
+  connected = true;
+  // client.subscribe("World");
+}
+
+function logMessage(){
+  if (!connected){
+    console.log("Client not connected, attempting reconnect...");
+    client.connect({onSuccess:onConnect});
+    setTimeout(function(){
+      logMessage();
+    }, 2000);
+  } else {
+    message = {};
+    prev = "";
+    if (logPreviousEvent){
+      date = document.getElementById("date").valueAsNumber;
+      time = document.getElementById("time").valueAsNumber;
+      message.time = (date + time + new Date().getTimezoneOffset() * 60000)/1000 ;
+    }
+    message.value = document.getElementById("value").value;
+    message = new Paho.MQTT.Message(JSON.stringify(message));
+    message.destinationName = document.getElementById("name").value;
+    client.send(message);
+    console.log("sent message");
+    document.getElementById("log").reset();
+    disablePrevious();    
+  }
+}
+
+
+
+// called when the client loses its connection
+function onConnectionLost(responseObject) {
+  if (responseObject.errorCode !== 0) {
+    console.log("onConnectionLost:"+responseObject.errorMessage);
+    connected = false;
+  }
+}
+
+
+
+</script>
+<body id="main">
+<h1>Log</h1>
+
+
+Log any event manually. To log past events, check the box below.
+
+<form id="log">
+  <input type="checkbox" name="previousEvent" value="previous" onclick="enablePrevious(this);"> Log previous event<br>
+  <div class="log_label">Event</div><input class="log_field" id="name" type="text" name="event_name"><br>
+  <div class="log_label">Value</div><input class="log_field" id="value" type="text" value=" " name="event_value"><br>
+  <div id="dateBlock" style="display: none">
+  <div class="log_label"><label for="date">Date</label></div>
+  <input class="log_field" id="date" type="date" name="event_date"><br>
+  <div class="log_label">Log time</div><input class="log_field" id="time" type="time" name="event_time" step="1"><br>
+</div><br>
+  <input type="button" onclick="logMessage()" value="Submit">
+</form>
+
+
+
+</body>
+<script src="menu.js"></script>
+<script type="text/javascript">
+
+  function enablePrevious(checkbox){
+  document.getElementById('date').valueAsDate = new Date();
+    if (checkbox.checked){
+      document.getElementById('dateBlock').style.display = "block";
+      logPreviousEvent = true;
+    } else{
+      document.getElementById('dateBlock').style.display = "none";
+      logPreviousEvent = false;
+
+    }
+  }
+
+  function disablePrevious(){
+  
+    document.getElementById('dateBlock').style.display = "none";
+    logPreviousEvent = false;
+    
+  }
+</script>
+</html>

@@ -1,0 +1,55 @@
+body {
+	font-size: 10pt;
+}
+
+.bold {
+	font-weight: 600;
+}
+
+ul#menu{
+
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background: lightgray;
+    text-align: center;
+    height: 20px;
+}
+
+#menu > li {
+    display: inline;
+    /*padding: 10px;*/
+}
+
+li > a{
+	text-decoration: none;
+	padding: 0 10px;
+}
+
+a.active {
+	background-color: darkgray;
+}
+
+table{
+	width: 100% !important;
+}
+
+
+
+.header{
+	font-weight: 600;
+}
+
+
+.log_field {
+	float: right;
+	width: 120px;
+}
+
+.log_label {
+	float: left;
+}
+
+#log{
+	width: 200px;
+}

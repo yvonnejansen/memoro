@@ -1,0 +1,21 @@
+{
+  "name": "memoro",
+  "version": "1.0.0",
+  "description": "A node.js server to collect MQTT messages and write them to an Influx database",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "node",
+    "mqtt",
+    "influxdb"
+  ],
+  "author": "Yvonne Jansen",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "influx": "^5.1.0",
+    "mqtt": "^3.0.0"
+  }
+}
