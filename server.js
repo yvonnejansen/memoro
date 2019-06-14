@@ -61,7 +61,7 @@ mqtt_client.on('message', function(topic, message) {
 // create a default server that serves different types of files and responds to
 // POST requests to save edited data
 http.createServer(function(req, res) {
-    console.log(`${req.method} ${req.url}`);
+    // console.log(`${req.method} ${req.url}`);
 
     // this is example code for pages which send back data via AJAX
     if (req.method === 'POST') {
@@ -100,7 +100,6 @@ http.createServer(function(req, res) {
             '.pdf': 'application/pdf',
             '.doc': 'application/msword'
         };
-        console.log("looking for " + pathname);
 
         fs.exists(pathname, function(exist) {
             if (!exist) {
