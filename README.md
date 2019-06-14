@@ -6,10 +6,15 @@ A node.js server to collect MQTT messages and write them to an Influx database
 - [InfluxDB installation](https://portal.influxdata.com/downloads/)
 - MQTT broker installation, e.g., [Mosquitto](https://mosquitto.org/download/)
 
-## Config
+## Configure
 Edit the server.js file to indicate the IP address of your MQTT broker and your InfluxDB. The lines to edit are marked with an arrow -->
 
-## Running the server
+Install the required node packages by running
+```
+npm install
+```
+
+## Start the server
 Start the server by running
 ```
 node server.js 
